@@ -256,6 +256,13 @@ public class AppConfig implements AifeiConfig<Input, Output> {
 mvn clean package
 ```
 
+## 致谢
+
+感谢以下优秀项目为本插件提供基础能力与设计启发：
+
+- [jfinal/aifei](https://github.com/jfinal/aifei)
+- [dromara/sa-token](https://github.com/dromara/sa-token)
+
 ## License
 
 Apache License 2.0
