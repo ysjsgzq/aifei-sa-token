@@ -11,6 +11,7 @@
 
     <name>aifei-sa-token</name>
     <description>Low-intrusion Sa-Token integration for Aifei and Undertow</description>
+    <url>https://github.com/ysjsgzq/aifei-sa-token</url>
 
     <licenses>
         <license>
@@ -28,6 +29,18 @@
             <url>https://aifei.cn</url>
         </developer>
     </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/ysjsgzq/aifei-sa-token.git</connection>
+        <developerConnection>scm:git:git@github.com:ysjsgzq/aifei-sa-token.git</developerConnection>
+        <url>https://github.com/ysjsgzq/aifei-sa-token</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/ysjsgzq/aifei-sa-token/issues</url>
+    </issueManagement>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
