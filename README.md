@@ -47,9 +47,13 @@
 
 ## Maven 依赖
 
+当前版本已经发布到 Maven Central：
+
+- [io.github.ysjsgzq:aifei-sa-token:1.0.0](https://repo.maven.apache.org/maven2/io/github/ysjsgzq/aifei-sa-token/1.0.0/)
+
 ```xml
 <dependency>
-    <groupId>cn.aifei</groupId>
+    <groupId>io.github.ysjsgzq</groupId>
     <artifactId>aifei-sa-token</artifactId>
     <version>1.0.0</version>
 </dependency>
