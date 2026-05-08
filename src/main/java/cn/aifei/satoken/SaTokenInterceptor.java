@@ -23,6 +23,7 @@ import cn.dev33.satoken.exception.StopMatchException;
 import cn.dev33.satoken.filter.SaFilter;
 import cn.dev33.satoken.filter.SaFilterAuthStrategy;
 import cn.dev33.satoken.filter.SaFilterErrorStrategy;
+import cn.dev33.satoken.fun.SaParamFunction;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.strategy.SaAnnotationStrategy;
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ import java.util.List;
  *
  * <p>适合直接作为 Aifei AOP 拦截器挂载在控制层入口。</p>
  */
-public class SaTokenInterceptor implements Interceptor, SaFilter {
+public class SaTokenInterceptor implements Interceptor {
 
     /**
      * 是否在路径匹配通过后继续执行方法注解鉴权。
@@ -59,7 +60,7 @@ public class SaTokenInterceptor implements Interceptor, SaFilter {
     /**
      * 核心鉴权逻辑，在路径命中且注解允许继续时执行。
      */
-    protected SaFilterAuthStrategy auth = r -> {};
+    public SaParamFunction<Object> auth = handler -> {};
     /**
      * 鉴权失败时的错误处理策略。
      */
@@ -68,6 +69,14 @@ public class SaTokenInterceptor implements Interceptor, SaFilter {
      * 真正进入路径匹配前执行的前置逻辑。
      */
     protected SaFilterAuthStrategy beforeAuth = r -> {};
+
+
+    public SaTokenInterceptor() {
+    }
+
+    public SaTokenInterceptor(SaParamFunction<Object> auth) {
+        this.auth = auth;
+    }
 
     /**
      * 执行完整的 Sa-Token 拦截流程。
@@ -81,7 +90,7 @@ public class SaTokenInterceptor implements Interceptor, SaFilter {
      * @param inv 当前调用上下文
      * @throws Throwable 未被拦截器转换处理的底层异常
      */
-    @Override
+
     public void intercept(Invocation inv) throws Throwable {
         try {
             if (beforeAuth != null) {
@@ -131,7 +140,6 @@ public class SaTokenInterceptor implements Interceptor, SaFilter {
      * @param paths 路径规则数组
      * @return 当前拦截器实例
      */
-    @Override
     public SaTokenInterceptor addInclude(String... paths) {
         includeList.addAll(Arrays.asList(paths));
         return this;
@@ -143,7 +151,7 @@ public class SaTokenInterceptor implements Interceptor, SaFilter {
      * @param paths 路径规则数组
      * @return 当前拦截器实例
      */
-    @Override
+
     public SaTokenInterceptor addExclude(String... paths) {
         excludeList.addAll(Arrays.asList(paths));
         return this;
@@ -155,7 +163,6 @@ public class SaTokenInterceptor implements Interceptor, SaFilter {
      * @param pathList 新的包含路径列表
      * @return 当前拦截器实例
      */
-    @Override
     public SaTokenInterceptor setIncludeList(List<String> pathList) {
         includeList = pathList;
         return this;
@@ -167,7 +174,6 @@ public class SaTokenInterceptor implements Interceptor, SaFilter {
      * @param pathList 新的排除路径列表
      * @return 当前拦截器实例
      */
-    @Override
     public SaTokenInterceptor setExcludeList(List<String> pathList) {
         excludeList = pathList;
         return this;
@@ -179,8 +185,7 @@ public class SaTokenInterceptor implements Interceptor, SaFilter {
      * @param auth 自定义鉴权策略
      * @return 当前拦截器实例
      */
-    @Override
-    public SaTokenInterceptor setAuth(SaFilterAuthStrategy auth) {
+    public SaTokenInterceptor setAuth(SaParamFunction<Object> auth) {
         this.auth = auth;
         return this;
     }
@@ -191,7 +196,6 @@ public class SaTokenInterceptor implements Interceptor, SaFilter {
      * @param error 自定义错误处理器；传入 {@code null} 时恢复默认策略
      * @return 当前拦截器实例
      */
-    @Override
     public SaTokenInterceptor setError(SaFilterErrorStrategy error) {
         this.error = error != null ? error : SaTokenErrorSupport.DEFAULT_ERROR;
         return this;
@@ -203,7 +207,6 @@ public class SaTokenInterceptor implements Interceptor, SaFilter {
      * @param beforeAuth 前置处理策略
      * @return 当前拦截器实例
      */
-    @Override
     public SaTokenInterceptor setBeforeAuth(SaFilterAuthStrategy beforeAuth) {
         this.beforeAuth = beforeAuth;
         return this;
